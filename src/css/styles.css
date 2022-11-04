@@ -19,7 +19,7 @@ body {
 }
 
 .search-form {
-  background-color: blue;
+  background-color: rgb(44, 186, 241);
   padding: 10px;
   text-align: center;
 }
@@ -76,7 +76,7 @@ body {
   margin: 0;
 }
 .load-more {
-  background-color: blue;
+  background-color: rgb(44, 186, 241);
   color: #fff;
   width: 150px;
   display: block;
