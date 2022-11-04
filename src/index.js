@@ -15,18 +15,23 @@ btnLoadmore.addEventListener('click', itemsGallery);
 
 function itemsGallery(e) {
   e.preventDefault();
+
   const inputValue = inputEl.value;
+
   if (inputValue === '') {
     updateGallery();
     return;
   }
+
   if (e.type === 'click') {
     page += 1;
   }
+
   if (e.type === 'submit') {
     updateGallery();
     page = 1;
   }
+
   dataLibrary(inputValue);
 }
 const dataLibrary = async inputValue => {
@@ -34,6 +39,7 @@ const dataLibrary = async inputValue => {
     const response = await axios.get(
       `${BASE_URL}?key=${KEY}&q=${inputValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${perPage}&page=${page}`
     );
+
     if (response.data.totalHits === 0) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -59,6 +65,7 @@ const dataLibrary = async inputValue => {
 function notifications(totalHits) {
   Notify.info(`Hooray! We found ${totalHits} images.`);
 }
+
 function updateGallery() {
   btnLoadmore.classList.add('hide');
   gallery.innerHTML = '';
@@ -67,24 +74,24 @@ function updateGallery() {
 function createGallery(item) {
   return `<div class="photo-card">
   <img class='image'src="${item.webformatURL}" alt="${item.tags}" loading="lazy" />
-  <ul class="info">
-    <li class="info-item">
-  <h2> Likes</h2>
-  <p class="item-span">${item.likes}</p>
-</li>
-<li class="info-item">
-  <h2> Views</h2>
-  <p class="item-span">${item.views}</p>
-</li>
-<li class="info-item">
-  <h2> Comments</h2>
-  <p class="item-span">${item.comments}</p>
-</li>
-<li class="info-item">
- <h2> Downloads</h2>
- <p class="item-span">${item.downloads}</p>
-</li>
-  </ul>
+    <ul class="info">
+        <li class="info-item">
+            <h2> Likes</h2>
+            <p class="item-span">${item.likes}</p>
+        </li>
+        <li class="info-item">
+            <h2> Views</h2>
+            <p class="item-span">${item.views}</p>
+        </li>
+        <li class="info-item">
+            <h2> Comments</h2>
+            <p class="item-span">${item.comments}</p>
+        </li>
+        <li class="info-item">
+            <h2> Downloads</h2>
+            <p class="item-span">${item.downloads}</p>
+        </li>
+    </ul>
 </div>`;
 }
 
@@ -93,6 +100,7 @@ const generateContent = array =>
 
 const insertContent = (array, totalHits) => {
   const result = generateContent(array);
+
   gallery.insertAdjacentHTML('beforeend', result);
   if (page === 1) {
     notifications(totalHits);
