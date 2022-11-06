@@ -19,12 +19,30 @@ body {
 }
 
 .search-form {
-  background-color: rgb(44, 186, 241);
   padding: 10px;
   text-align: center;
 }
 .input {
+  padding: 10px;
   display: inline-block;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-weight: 500;
+
+  border-radius: 20px;
+  border-color: rgb(163, 147, 147);
+}
+
+.btn {
+  background-color: rgb(44, 186, 241);
+  color: #fff;
+  width: 150px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 20px;
+  border-color: rgb(44, 186, 241);
+  cursor: pointer;
 }
 .gallery {
   display: flex;
@@ -85,6 +103,8 @@ body {
   font-size: 16px;
   font-weight: 500;
   border-radius: 20px;
+  border: none;
+  cursor: pointer;
 }
 .hide {
   display: none;
