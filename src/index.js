@@ -1,5 +1,7 @@
 import './css/styles.css';
 import PicturesApiService from './js/pictures-service';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import axios from 'axios';
 
@@ -18,42 +20,56 @@ function onSearch(e) {
   picturesApiService.resetPage();
   picturesApiService.fetchPictures().then(data => {
     clearGallery();
-    createGalleryMarkup(data.hits);
+    createGallery(data.hits);
     showLoadMoreBtn();
   });
 }
 
 function onLoadMore() {
-  picturesApiService
-    .fetchPictures()
-    .then(data => createGalleryMarkup(data.hits));
+  picturesApiService.fetchPictures().then(data => {
+    createGallery(data.hits);
+  });
 }
 
 function createGalleryMarkup(hits) {
-  const hitsMarkup = hits
+  return hits
     .map(
-      ({ webformatURL, tags, likes, views, comments, downloads }) =>
+      ({
+        largeImageURL,
+        webformatURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) =>
         `<div class="photo-card">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-        <div class="info">
-            <p class="info-item">
-                <b>Likes: ${likes}</b>
-            </p>
-            <p class="info-item">
-                <b>Views: ${views}</b>
-            </p>
-            <p class="info-item">
-                <b>Comments: ${comments}</b>
-            </p>
-            <p class="info-item">
-                <b>Downloads: ${downloads}</b>
-            </p>
-        </div>
-    </div>`
+            <a class="gallery__item" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
+            <div class="info">
+                <p class="info-item">
+                    <b>Likes: ${likes}</b>
+                </p>
+                <p class="info-item">
+                    <b>Views: ${views}</b>
+                </p>
+                <p class="info-item">
+                    <b>Comments: ${comments}</b>
+                </p>
+                <p class="info-item">
+                    <b>Downloads: ${downloads}</b>
+                </p>
+            </div>
+        </div>`
     )
     .join('');
+}
 
-  gallery.insertAdjacentHTML('beforeend', hitsMarkup);
+function createGallery(hits) {
+  gallery.insertAdjacentHTML('beforeend', createGalleryMarkup(hits));
+  let galleryBox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  });
 }
 
 function clearGallery() {
