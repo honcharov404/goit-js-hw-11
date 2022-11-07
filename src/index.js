@@ -70,6 +70,7 @@ function createGallery(hits) {
     captionsData: 'alt',
     captionDelay: 250,
   });
+  galleryBox.refresh();
 }
 
 function clearGallery() {
