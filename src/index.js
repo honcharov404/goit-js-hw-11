@@ -43,8 +43,8 @@ function createGalleryMarkup(hits) {
         comments,
         downloads,
       }) =>
-        `<div class="photo-card">
-            <a class="gallery__item" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
+        `<div class="gallery__item">
+            <a class="gallery__link" href="${largeImageURL}"><img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
             <div class="info">
                 <p class="info-item">
                     <b>Likes: ${likes}</b>

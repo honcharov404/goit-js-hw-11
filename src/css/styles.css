@@ -45,25 +45,48 @@ body {
   cursor: pointer;
 }
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  background-color: #fff;
+  display: grid;
+  max-width: 1140px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-auto-rows: 240px;
+  grid-gap: 12px;
   justify-content: center;
-  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.photo-card {
+.gallery__item {
   position: relative;
-  box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
-  max-width: 400px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
-.image {
+.gallery__link {
+  display: block;
+  text-decoration: none;
+  height: 100%;
+}
+
+.gallery__link:hover {
+  cursor: zoom-in;
+}
+
+.gallery__image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform var(--animation-duration) var(--timing-function);
+}
+
+.gallery__image:hover {
+  transform: scale(1.03);
+}
+
+/* .image {
   display: block;
   object-fit: cover;
   max-width: 100%;
   height: auto;
-}
+} */
 .info {
   position: absolute;
   bottom: 0;
