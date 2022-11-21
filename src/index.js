@@ -13,20 +13,31 @@ const picturesApiService = new PicturesApiService();
 formEl.addEventListener('submit', onSearch);
 loadMoreBtn.addEventListener('click', onLoadMore);
 
-function onSearch(e) {
+async function onSearch(e) {
   e.preventDefault();
 
   picturesApiService.query = e.currentTarget.elements.searchQuery.value;
   picturesApiService.resetPage();
-  picturesApiService.fetchPictures().then(data => {
+  await picturesApiService.fetchPictures().then(data => {
     clearGallery();
     createGallery(data.hits);
+    picturesApiService.onTotalHits(data.totalHits);
     showLoadMoreBtn();
+
+    if (data.totalHits === 0) {
+      hideLoadMoreBtn();
+      return picturesApiService.onNotFound();
+    }
+
+    if (data.totalHits < picturesApiService.page * picturesApiService.perPage) {
+      hideLoadMoreBtn();
+      picturesApiService.onEndOfTotalHits();
+    }
   });
 }
 
-function onLoadMore() {
-  picturesApiService.fetchPictures().then(data => {
+async function onLoadMore() {
+  await picturesApiService.fetchPictures().then(data => {
     createGallery(data.hits);
   });
 }
@@ -45,18 +56,18 @@ function createGalleryMarkup(hits) {
       }) =>
         `<div class="gallery__item">
             <a class="gallery__link" href="${largeImageURL}"><img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
-            <div class="info">
-                <p class="info-item">
-                    <b>Likes: ${likes}</b>
+            <div class="gallery__info">
+                <p class="gallery__descr">
+                    Likes: <b>${likes}</b>
                 </p>
-                <p class="info-item">
-                    <b>Views: ${views}</b>
+                <p class="gallery__descr">
+                    Views: <b>${views}</b>
                 </p>
-                <p class="info-item">
-                    <b>Comments: ${comments}</b>
+                <p class="gallery__descr">
+                    Comments: <b>${comments}</b>
                 </p>
-                <p class="info-item">
-                    <b>Downloads: ${downloads}</b>
+                <p class="gallery__descr">
+                    Downloads: <b>${downloads}</b>
                 </p>
             </div>
         </div>`
