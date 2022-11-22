@@ -21,7 +21,6 @@ async function onSearch(e) {
   await picturesApiService.fetchPictures().then(data => {
     clearGallery();
     createGallery(data.hits);
-    picturesApiService.onTotalHits(data.totalHits);
     showLoadMoreBtn();
 
     if (data.totalHits === 0) {
